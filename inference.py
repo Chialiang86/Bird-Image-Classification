@@ -23,13 +23,14 @@ def to_batch(x, y, batch_size):
     ret_y = torch.stack(ret_y)
     return ret_x, ret_y
 
+
 # judge device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print('the divice for training : {}'.format(device))
 
 # load model
-print('loading model bird_0.89677.pth ...') # best model
-model = torch.load('bird_0.89677.pth' , map_location=torch.device(device))
+print('loading model bird_0.89677.pth ...')  # best model
+model = torch.load('bird_0.89677.pth', map_location=torch.device(device))
 
 # data preprocessing object
 img_size = 320

@@ -287,7 +287,8 @@ def main(args):
     #     0.9, 0.999), eps=1e-08, weight_decay=args.weight_decay, amsgrad=False)
 
     criterion = torch.nn.CrossEntropyLoss()
-    optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, momentum=0.9, weight_decay=args.weight_decay)
+    optimizer = torch.optim.SGD(
+        model.parameters(), lr=args.lr, momentum=0.9, weight_decay=args.weight_decay)
 
     min_acc = 0
     tmp_patience = 0

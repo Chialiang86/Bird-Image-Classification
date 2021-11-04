@@ -23,6 +23,7 @@ def to_batch(x, y, batch_size):
     ret_y = torch.stack(ret_y)
     return ret_x, ret_y
 
+
 def main(args):
 
     # judge device
@@ -58,7 +59,8 @@ def main(args):
     test_x_raw = [preprocess(Image.open('{}{}'.format(
         test_img_path, info))) for info in testing_info]
     test_x_raw = torch.stack(test_x_raw)
-    test_x, _ = to_batch(test_x_raw, torch.zeros(test_x_raw.size()[0]), batch_size)
+    test_x, _ = to_batch(test_x_raw, torch.zeros(
+        test_x_raw.size()[0]), batch_size)
 
     total_cnt = 0
     remain_bufsize = 0
@@ -81,10 +83,12 @@ def main(args):
     fout.close()
     print('process completed.')
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
 
     parser = argparse.ArgumentParser('Submit code')
-    parser.add_argument('--model_path', default='result/transFG/07/bird_0.89677.pth', type=str)
+    parser.add_argument(
+        '--model_path', default='result/transFG/07/bird_0.89677.pth', type=str)
     parser.add_argument('--img_size', default=320, type=int)
     args = parser.parse_args()
     main(args)
