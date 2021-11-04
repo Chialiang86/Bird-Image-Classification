@@ -28,7 +28,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print('the divice for training : {}'.format(device))
 
 # load model
-print('loading model bird_0.89677.pth ...')
+print('loading model bird_0.89677.pth ...') # best model
 model = torch.load('bird_0.89677.pth' , map_location=torch.device(device))
 
 # data preprocessing object
@@ -48,7 +48,7 @@ for cls in class_list:
 
 # load testing filenames
 print('loading data ...')
-test_img_path = 'data/testing_images/'
+test_img_path = 'crop/testing_images/'
 f_testing_info = open('data/testing_img_order.txt', 'r')
 batch_size = 1
 

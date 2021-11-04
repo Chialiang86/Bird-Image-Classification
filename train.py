@@ -266,13 +266,13 @@ def main(args):
         T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ])
 
-    x_raw, y_raw = load_raw_data(info_path='data/training_labels.txt', img_path='data/training_images/',
+    x_raw, y_raw = load_raw_data(info_path='data/training_labels.txt', img_path='crop/training_images/',
                                  transform=transform_train, class_map=class_map, aug_num=args.aug_num)
 
     print('preprocessing data...')
     index_map = create_index_map(y_raw)
     train_x, train_y, val_x, val_y = train_val_split(
-        x_raw, y_raw, index_map, 1, args.batch_size, args.aug_num)
+        x_raw, y_raw, index_map, 2, args.batch_size, args.aug_num)
 
     print('saving example images...')
     utils.save_image(train_x[0][0], 'example.png')
@@ -282,11 +282,14 @@ def main(args):
     # setting model
     model = build_model(args)
 
-    criterion = torch.nn.NLLLoss()
-    optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, betas=(
-        0.9, 0.999), eps=1e-08, weight_decay=args.weight_decay, amsgrad=False)
+    # criterion = torch.nn.NLLLoss()
+    # optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, betas=(
+    #     0.9, 0.999), eps=1e-08, weight_decay=args.weight_decay, amsgrad=False)
 
-    min_loss = np.inf
+    criterion = torch.nn.CrossEntropyLoss()
+    optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, momentum=0.9, weight_decay=args.weight_decay)
+
+    min_acc = 0
     tmp_patience = 0
     train_losses, val_losses, train_accs, val_accs = [], [], [], []
 
@@ -310,14 +313,14 @@ def main(args):
         torch.save(model, '{}/bird_{:.5f}.pth'.format(res_dir, val_acc))
         print('{}/bird_{:.5f}.pth saved'.format(res_dir, val_acc))
 
-        if min_loss > val_loss and train_acc < 0.995:
-            print('testing loss improved from {:.5f} to {:.5f}'.format(
-                min_loss, val_loss))
-            min_loss = val_loss
+        if min_acc < val_acc and train_acc < 0.995:
+            print('testing acc improved from {:.5f} to {:.5f}'.format(
+                min_acc, val_acc))
+            min_acc = val_acc
             tmp_patience = 0
-        elif tmp_patience + 1 < args.patience and train_acc < 0.99:
-            print('testing loss not improved from {:.5f}, got {:.5f}'.format(
-                min_loss, val_loss))
+        elif tmp_patience + 1 < args.patience and train_acc < 0.995:
+            print('testing acc not improved from {:.5f}, got {:.5f}'.format(
+                min_acc, val_acc))
             tmp_patience += 1
         else:
             print('early stopping')

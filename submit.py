@@ -49,7 +49,7 @@ def main(args):
 
     # load testing filenames
     print('loading data ...')
-    test_img_path = 'data/testing_images/'
+    test_img_path = 'crop/testing_images/'
     f_testing_info = open('data/testing_img_order.txt', 'r')
     batch_size = 1
 

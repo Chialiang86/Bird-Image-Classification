@@ -46,6 +46,7 @@ def get_l16_config():
     """Returns the ViT-L/16 configuration."""
     config = ml_collections.ConfigDict()
     config.patches = ml_collections.ConfigDict({'size': (16, 16)})
+    config.split = 'non-overlap'
     config.hidden_size = 1024
     config.transformer = ml_collections.ConfigDict()
     config.transformer.mlp_dim = 4096
