@@ -1,7 +1,10 @@
+---
+tags: CVDL
+---
 
 # CodaLab Competetion : Bird Images Classification
 
-> contest link : https://competitions.codalab.org/competitions/35668
+> contest link : https://competitions.codalab.org/competitions/35668?secret_key=09789b13-35ec-4928-ac0f-6c86631dda07
 
 ## Environment
 - Ubuntu 20.04.1
@@ -38,8 +41,7 @@ Run the image cropper tool
 $ python crop.py
 ```
 1. First, click the left-top position of the bird patch, and then click the right-bottom position of the bird patch
-2. Press space key to select the next image
-3. until all the images are cropped
+2. Press space key to select the next image until all the images are cropped
 
 #### 2. Use torchvision.transforms to do basic augmentation
 ```python 
@@ -58,13 +60,13 @@ Each image will generate two images through transform methods
 ## Training
 
 #### Download pretrained weights for transFG
-- github repo : [link](https://github.com/TACJu/TransFG)
+- GitHub repo : [link](https://github.com/TACJu/TransFG)
 - ViT-B_16 pretrained weight : [link](https://drive.google.com/file/d/1GOnXkRCrAQgctRJI4eIsl5no_1yg1GQF/view?usp=sharing)
 - ViT-B_32 pretrained weight : [link](https://drive.google.com/file/d/1r_zZ5awqyHadAxTqlslyztkzA1vchDg-/view?usp=sharing)
 #### Command line options
 - img_size : image size of the given image, ex 320 -> (320, 320)
-- aug_num : the magnification of the original number of dataset (3000 for training set)
-- batch_size : default 16
+- aug_num : magnification of the original number of dataset (3000 for training set),default 2
+- batch_size : default 6
 - epoch : default 100
 - model : [resnet18, resnet50, efficientnet-b0, efficientnet-b1, efficientnet-b3, efficientnet-b4, efficientnet-b5, transFG], default transFG (fine-grained approach)
 - fg_type : type of fine-grained, [ViT-B_16, ViT-B_32], default ViT-B_16
@@ -85,12 +87,10 @@ $ python submit.py --model_path [default='result/transFG/07/bird_0.89677.pth'] -
 
 ## Reproduce the best submission file
 
-1. Load the best weight 
+1. Download the best weight 
 -> google drive link : [bird_0.89677.pth](https://drive.google.com/file/d/1BGkMcoTOT5U24ufnyyMOjQtN74NASkJW/view?usp=sharing)
-
-2. Drag the weight to the root of the project folder
-
-3. run `python inference.py` to get the answer.txt in the root of the project folder
+2. Drag the weight file to the root of the project folder
+3. Run `python inference.py` to get the answer.txt in the root of the project folder
 
 ## Best Result
 
